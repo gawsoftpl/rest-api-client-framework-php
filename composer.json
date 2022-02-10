@@ -1,0 +1,32 @@
+{
+    "name": "gawsoft/rest-api-client-framework",
+    "description": "Simple client framework for api client",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Gawsoft\\RestApiClientFramework\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gawsoft\\RestApiClientFramework\\Tests\\": "tests/"
+        }
+    },
+    "homepage": "https://gawsoft.pl",
+    "repositories": [
+
+    ],
+    "scripts": {
+        "test": "./vendor/bin/phpunit -c phpunit.dist.xml",
+        "doc:gen": "phpdoc -d ./src -t ./docs"
+    },
+    "require": {
+        "php": ">=7.0",
+        "ext-curl": "*",
+        "guzzlehttp/guzzle": ">=6.5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=6"
+    }
+}
