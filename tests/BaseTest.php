@@ -34,7 +34,7 @@ class BaseTest extends TestCase {
             'method' => 'GET',
             'path' => '/bearer'
         ]);
-
+//var_dump($response->json());
         $this->assertEquals(200, $response->statusCode());
         $this->assertObjectHasAttribute('authenticated',$response->json());
         $this->assertTrue($response->json()->authenticated);
@@ -86,7 +86,10 @@ class BaseTest extends TestCase {
             'path' => '/gzip'
         ]);
 
-        $this->assertObjectHasAttribute('gzipped',$response->json());
+        $this->assertTrue(in_array('gzip', $response->contentEncodings()));
+        $this->assertEquals('gzip', $response->contentEncoding());
+        $this->assertEquals('application/json', $response->contentType());
+        $this->assertObjectHasAttribute('gzipped', $response->json());
         $this->assertTrue($response->json()->gzipped);
     }
 

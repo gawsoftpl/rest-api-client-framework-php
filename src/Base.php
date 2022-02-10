@@ -15,7 +15,7 @@ class Base {
         $this->client = $client;
     }
 
-    function download($url, $save_path){
+    function download($url, $save_path): Response{
         try{
             $http = new Client();
 
@@ -40,16 +40,16 @@ class Base {
 
            $api_key = $this->client->getApiKey();
 
+           $toSend = [
+               'decode_content' => false
+           ];
+
            if($api_key)
-               $toSend = [
-                   'headers' => array_merge([
+               $toSend['headers'] = array_merge([
                        'authorization' => 'Bearer '.$api_key
-                   ], $this->headers)
-               ];
+                   ], $this->headers);
            else
-               $toSend = [
-                   'headers' => $this->headers
-               ];
+               $toSend['headers'] = $this->headers;
 
            if(!in_array($data['method'],['GET','DELETE']) && isset($data['data']))
               $toSend['json'] = $data['data'];
