@@ -18,9 +18,22 @@ class Base {
     function download($url, $save_path): Response{
         try{
             $http = new Client();
-
             $resource = \GuzzleHttp\Psr7\Utils::tryFopen($save_path, 'w');
-            $res = $http->get($url,['sink'=>$resource]);
+
+            $api_key = $this->client->getApiKey();
+            $options = [
+                'headers' => [],
+                'sink' => $resource
+            ];
+
+            if($api_key)
+                $options['headers'] = array_merge([
+                    'authorization' => 'Bearer '.$api_key
+                ], $this->headers);
+            else
+                $options['headers'] = $this->headers;
+
+            $res = $http->get($url, $options);
             return new Response($res);
         }catch(\Exception $e){
             throw new ClientException($e->getMessage(), $e->getCode());
