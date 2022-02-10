@@ -18,6 +18,18 @@ class BaseTest extends TestCase {
         $this->assertEquals('a27095e7727c70909c910cefe16d30de',$hash_file);
     }
 
+    function test_method_status_code() {
+        $base = new Base(new TestClient());
+
+        $response = $base->method([
+            'method' => 'POST',
+            'path' => '/status/202',
+            'accept_codes' => [202]
+        ]);
+
+        $this->assertEquals(202, $response->statusCode());
+    }
+
     function test_method_parse_json() {
         $base = new Base(new TestClient());
         $response = $base->method([
@@ -91,6 +103,26 @@ class BaseTest extends TestCase {
         $this->assertEquals('application/json', $response->contentType());
         $this->assertObjectHasAttribute('gzipped', $response->json());
         $this->assertTrue($response->json()->gzipped);
+    }
+
+    function test_method_parse_deflate_json() {
+        $base = new Base(new TestClient());
+        $base->setHeaders([
+            'X-abc'=>"aaa",
+            'X-AAAA'=>'bbbb',
+            'Accept-Encoding' => 'gzip',
+        ]);
+
+        $response = $base->method([
+            'method' => 'GET',
+            'path' => '/deflate'
+        ]);
+
+        $this->assertTrue(in_array('deflate', $response->contentEncodings()));
+        $this->assertEquals('deflate', $response->contentEncoding());
+        $this->assertEquals('application/json', $response->contentType());
+        $this->assertObjectHasAttribute('deflated', $response->json());
+        $this->assertTrue($response->json()->deflated);
     }
 
 }

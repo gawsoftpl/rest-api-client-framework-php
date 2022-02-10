@@ -6,28 +6,13 @@ class Response {
 
     private \GuzzleHttp\Psr7\Response $response;
     private $body;
-    private $headers;
 
     function __construct(\GuzzleHttp\Psr7\Response $response){
         $this->response = $response;
-        $this->headers = $response->getHeaders();
-        $this->createBody();
-    }
-
-    protected function createBody(){
-        if($this->contentEncoding() == 'deflate')
-            return $this->body = gzinflate($this->response->getBody()->getContents());
-        elseif($this->contentEncoding() == 'gzip')
-            return $this->body = gzdecode($this->response->getBody()->getContents());
-
-        if (in_array($this->contentType(), ['application/json','text/plain']))
-            $this->body = $this->response->getBody()->getContents();
-        else
-            $this->body = $this->response->getBody();
     }
 
     function contentEncodings(): array{
-        return $this->response->getHeader('Content-Encoding');
+        return $this->response->getHeader('x-encoded-content-encoding');
     }
 
     function contentEncoding(): string {
@@ -38,11 +23,14 @@ class Response {
     }
 
     function json(){
-        return json_decode($this->body, false, 512, JSON_BIGINT_AS_STRING);
+        return json_decode($this->body(), false, 512, JSON_BIGINT_AS_STRING);
     }
 
     function body(){
-        return $this->body;
+        if($this->body)
+            return $this->body;
+
+        return $this->body = $this->response->getBody()->getContents();
     }
 
     function contentType(): string{

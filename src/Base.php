@@ -41,7 +41,7 @@ class Base {
            $api_key = $this->client->getApiKey();
 
            $toSend = [
-               'decode_content' => false
+               'decode_content' => true
            ];
 
            if($api_key)
@@ -64,7 +64,7 @@ class Base {
                $data['accept_codes'] = [200];
 
             if(!in_array($res->getStatusCode(), $data['accept_codes'])){
-                throw new ClientException("Wrong status code");
+                throw new ClientException("Wrong status code: {$res->getStatusCode()}");
             }
 
             return new Response($res);
