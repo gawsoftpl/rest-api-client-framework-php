@@ -13,7 +13,7 @@ class Project extends Base
      */
     function create(array $data): Response{
         return $this->method([
-            'path' => '/projects',
+            'path' => 'projects',
             'data' => $data,
             'accept_codes' => [201],
             'method' => 'POST'
@@ -30,7 +30,7 @@ class Project extends Base
      */
     function update(string $project_id, array $data): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id,
+            'path' => 'projects/'.$project_id,
             'data' => $data,
             'method' => 'PATCH'
         ]);
@@ -45,7 +45,7 @@ class Project extends Base
      */
     function list(int $page=1): Response{
         return $this->method([
-            'path' => '/projects/?page='.$page,
+            'path' => 'projects/?page='.$page,
             'method' => 'GET'
         ]);
     }
@@ -59,7 +59,7 @@ class Project extends Base
      */
     function get(string $project_id): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id,
+            'path' => 'projects/'.$project_id,
             'method' => 'GET'
         ]);
     }
@@ -73,7 +73,7 @@ class Project extends Base
      */
     function remove(string $project_id): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id,
+            'path' => 'projects/'.$project_id,
             'method' => 'DELETE'
         ]);
     }

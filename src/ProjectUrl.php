@@ -16,7 +16,7 @@ class ProjectUrl extends Base {
      */
     function create(string $project_id, array $data): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id.'/urls',
+            'path' => 'projects/'.$project_id.'/urls',
             'data' => $data,
             'accept_codes' => [201],
             'method' => 'POST'
@@ -33,7 +33,7 @@ class ProjectUrl extends Base {
      */
     function list(string $project_id, int $page=1): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id.'/urls?page='.$page,
+            'path' => 'projects/'.$project_id.'/urls?page='.$page,
             'method' => 'GET'
         ]);
     }
@@ -48,7 +48,7 @@ class ProjectUrl extends Base {
      */
     function get(string $project_id, string $project_url_id): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id.'/urls/'.$project_url_id,
+            'path' => 'projects/'.$project_id.'/urls/'.$project_url_id,
             'method' => 'GET'
         ]);
     }
@@ -63,7 +63,7 @@ class ProjectUrl extends Base {
      */
     function remove(string $project_id, string $project_url_id): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id.'/urls/'.$project_url_id,
+            'path' => 'projects/'.$project_id.'/urls/'.$project_url_id,
             'method' => 'DELETE'
         ]);
     }
@@ -78,7 +78,7 @@ class ProjectUrl extends Base {
      */
     function processAgain(string $project_id, string $project_url_id): Response{
         return $this->method([
-            'path' => '/projects/'.$project_id.'/urls/'.$project_url_id.'/process_again',
+            'path' => 'projects/'.$project_id.'/urls/'.$project_url_id.'/process_again',
             'method' => 'POST'
         ]);
     }
