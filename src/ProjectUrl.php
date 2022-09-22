@@ -99,7 +99,7 @@ class ProjectUrl extends Base {
         }
 
         if (!filter_var($url, FILTER_VALIDATE_URL))
-            throw new ClientException("Url ".$url.' is not valid');
+            throw new ClientException("Url ".$url.' is not valid', 400);
 
         return $this->download($url, $save_path);
     }

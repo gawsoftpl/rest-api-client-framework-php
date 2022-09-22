@@ -53,6 +53,23 @@ class BaseTest extends TestCase {
         $this->assertEquals('abc', $response->json()->token);
     }
 
+    function test_catch_client_exception_from_guzzle() {
+        $client = new TestClient();
+        $client->api_key = '';
+
+        $base = new Base($client);
+
+        try {
+            $base->method([
+                'method' => 'POST',
+                'path' => '/status/400'
+            ]);
+        }catch(ClientException $e){
+            $this->assertEquals(true, $e->hasResponse());
+            $this->assertEquals(400, $e->getResponse()->statusCode());
+        }
+    }
+
     function test_method_auth_bearer_should_return_401() {
         $client = new TestClient();
         $client->api_key = '';
@@ -60,10 +77,11 @@ class BaseTest extends TestCase {
         $base = new Base($client);
 
         $this->expectException(ClientException::class);
-        $response = $base->method([
+        $base->method([
             'method' => 'GET',
             'path' => '/bearer'
         ]);
+
     }
 
     function test_method_add_headers() {

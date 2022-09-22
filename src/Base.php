@@ -51,36 +51,37 @@ class Base {
                 'base_uri' => $this->client->getEndpoint()
             ]);
 
-           $api_key = $this->client->getApiKey();
+            $api_key = $this->client->getApiKey();
 
-           $toSend = [
-               'decode_content' => true
-           ];
+            $toSend = [
+                'decode_content' => true
+            ];
 
-           if($api_key)
-               $toSend['headers'] = array_merge([
-                       'authorization' => 'Bearer '.$api_key
-                   ], $this->headers);
-           else
-               $toSend['headers'] = $this->headers;
+            if ($api_key)
+                $toSend['headers'] = array_merge([
+                    'authorization' => 'Bearer ' . $api_key
+                ], $this->headers);
+            else
+                $toSend['headers'] = $this->headers;
 
-           if(!in_array($data['method'],['GET','DELETE']) && isset($data['data']))
-              $toSend['json'] = $data['data'];
+            if (!in_array($data['method'], ['GET', 'DELETE']) && isset($data['data']))
+                $toSend['json'] = $data['data'];
 
-           $res = $http->request(
-               $data['method'],
-               $data['path'],
-               $toSend
-           );
+            $res = $http->request(
+                $data['method'],
+                $data['path'],
+                $toSend
+            );
 
-           if(!isset($data['accept_codes']))
-               $data['accept_codes'] = [200];
+            if (!isset($data['accept_codes']))
+                $data['accept_codes'] = [200];
 
-            if(!in_array($res->getStatusCode(), $data['accept_codes'])){
-                throw new ClientException("Wrong status code: {$res->getStatusCode()}");
+            if (!in_array($res->getStatusCode(), $data['accept_codes'])) {
+                throw new ClientException("Wrong status code: {$res->getStatusCode()}", 400, null, $res);
             }
-
             return new Response($res);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            throw new ClientException($e->getMessage(), $e->getCode(), $e, $e->getResponse());
         }catch(\Exception $e){
             throw new ClientException($e->getMessage(), $e->getCode());
         }

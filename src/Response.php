@@ -2,13 +2,21 @@
 
 namespace Gawsoft\RestApiClientFramework;
 
-class Response {
+use Gawsoft\RestApiClientFramework\Interfaces\ResponseInterface;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
+
+class Response implements ResponseInterface {
 
     private \GuzzleHttp\Psr7\Response $response;
     private $body;
 
     function __construct(\GuzzleHttp\Psr7\Response $response){
         $this->response = $response;
+    }
+
+    function psr7Response(): PsrResponseInterface
+    {
+        return $this->response;
     }
 
     function contentEncodings(): array{
@@ -49,7 +57,8 @@ class Response {
         return $this->response->getHeaders();
     }
 
-    function save($path): bool{
+    function save(string $path): bool{
         return file_put_contents($path, $this->response->getBody());
     }
+
 }
