@@ -35,6 +35,8 @@ class Base {
 
             $res = $http->get($url, $options);
             return new Response($res);
+        } catch (\GuzzleHttp\Exception\ClientException $e) {
+            throw new ClientException($e->getMessage(), $e->getCode(), $e, $e->getResponse());
         }catch(\Exception $e){
             throw new ClientException($e->getMessage(), $e->getCode());
         }
