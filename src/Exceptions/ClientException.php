@@ -17,6 +17,7 @@ class ClientException extends \Exception{
         ResponseInterface $response = null
     ) {
         parent::__construct($message, $code, $previous);
+        $this->response = null;
         if ($response) $this->response = new Response($response);
     }
 

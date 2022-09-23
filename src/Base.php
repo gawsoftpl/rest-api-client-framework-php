@@ -36,7 +36,7 @@ class Base {
             $res = $http->get($url, $options);
             return new Response($res);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            throw new ClientException($e->getMessage(), $e->getCode(), $e, $e->getResponse());
+            throw new ClientException($e->getMessage(), $e->getCode(), $e, $e->hasResponse() ? $e->getResponse() : null);
         }catch(\Exception $e){
             throw new ClientException($e->getMessage(), $e->getCode());
         }
@@ -83,7 +83,7 @@ class Base {
             }
             return new Response($res);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
-            throw new ClientException($e->getMessage(), $e->getCode(), $e, $e->getResponse());
+            throw new ClientException($e->getMessage(), $e->getCode(), $e,$e->hasResponse() ? $e->getResponse() : null);
         }catch(\Exception $e){
             throw new ClientException($e->getMessage(), $e->getCode());
         }
