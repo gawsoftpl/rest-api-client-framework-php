@@ -68,6 +68,8 @@ class Base {
 
             if (!in_array($data['method'], ['GET', 'DELETE']) && isset($data['data']))
                 $toSend['json'] = $data['data'];
+            else
+                $toSend['query'] = $data['data'];
 
             $res = $http->request(
                 $data['method'],
@@ -76,7 +78,7 @@ class Base {
             );
 
             if (!isset($data['accept_codes']))
-                $data['accept_codes'] = [200];
+                $data['accept_codes'] = [200, 201, 204];
 
             if (!in_array($res->getStatusCode(), $data['accept_codes'])) {
                 throw new ClientException("Wrong status code: {$res->getStatusCode()}", 400, null, $res);

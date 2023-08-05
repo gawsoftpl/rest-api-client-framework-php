@@ -22,7 +22,7 @@
         "doc:gen": "phpdoc -d ./src -t ./docs"
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-curl": "*",
         "guzzlehttp/guzzle": ">=6.5.5"
     },
