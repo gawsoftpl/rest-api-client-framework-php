@@ -68,7 +68,7 @@ class Base {
 
             if (!in_array($data['method'], ['GET', 'DELETE']) && isset($data['data']))
                 $toSend['json'] = $data['data'];
-            else
+            else if(isset($data['data']))
                 $toSend['query'] = $data['data'];
 
             $res = $http->request(
