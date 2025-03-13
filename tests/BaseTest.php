@@ -37,7 +37,7 @@ class BaseTest extends TestCase {
             'path' => '/json'
         ]);
 
-        $this->assertObjectHasAttribute('slideshow',$response->json());
+        $this->assertObjectHasProperty('slideshow',$response->json());
     }
 
     function test_method_auth_bearer() {
@@ -48,7 +48,7 @@ class BaseTest extends TestCase {
         ]);
 //var_dump($response->json());
         $this->assertEquals(200, $response->statusCode());
-        $this->assertObjectHasAttribute('authenticated',$response->json());
+        $this->assertObjectHasProperty('authenticated',$response->json());
         $this->assertTrue($response->json()->authenticated);
         $this->assertEquals('abc', $response->json()->token);
     }
@@ -96,8 +96,8 @@ class BaseTest extends TestCase {
             'path' => '/headers'
         ]);
 
-        $this->assertObjectHasAttribute('X-Abc',$response->json()->headers);
-        $this->assertObjectHasAttribute('X-Aaaa',$response->json()->headers);
+        $this->assertObjectHasProperty('X-Abc',$response->json()->headers);
+        $this->assertObjectHasProperty('X-Aaaa',$response->json()->headers);
         $this->assertEquals('aaa', $response->json()->headers->{'X-Abc'});
         $this->assertEquals('bbbb', $response->json()->headers->{'X-Aaaa'});
     }
@@ -119,7 +119,7 @@ class BaseTest extends TestCase {
         $this->assertTrue(in_array('gzip', $response->contentEncodings()));
         $this->assertEquals('gzip', $response->contentEncoding());
         $this->assertEquals('application/json', $response->contentType());
-        $this->assertObjectHasAttribute('gzipped', $response->json());
+        $this->assertObjectHasProperty('gzipped', $response->json());
         $this->assertTrue($response->json()->gzipped);
     }
 
@@ -139,7 +139,7 @@ class BaseTest extends TestCase {
         $this->assertTrue(in_array('deflate', $response->contentEncodings()));
         $this->assertEquals('deflate', $response->contentEncoding());
         $this->assertEquals('application/json', $response->contentType());
-        $this->assertObjectHasAttribute('deflated', $response->json());
+        $this->assertObjectHasProperty('deflated', $response->json());
         $this->assertTrue($response->json()->deflated);
     }
 

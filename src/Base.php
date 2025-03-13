@@ -46,7 +46,7 @@ class Base {
         $this->headers = $headers;
     }
 
-    function method(array $data, int $timeout = null){
+    function method(array $data, int | null $timeout = null){
         try {
             $http = new Client([
                 'timeout' => $timeout ? $timeout : $this->client->getTimeout(),
